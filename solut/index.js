@@ -1,17 +1,36 @@
-import express from "express" // new js
-
-const express = require("express") // old js
-
+import express from "express"
+import cors from "cors";
+import students from "../students.json" with { type: "json" };
 
 const app = express()
 const port = 3000
 
+// Global middleware
+app.use(cors())
+app.use(express.json())
+
+// Public routes
 app.get("/", (req, res) => {
-	res.json({ msg: "Hello World!" })
+	res.json(students)
+})
+
+app.post("/", (req, res) => {
+	const { test, firstName } = req.body;  // Destructuring
+	res.json({ test, firstName });
+})
+
+
+// Health check (useful for Render)
+app.get('/health', (req, res) => {
+	res.json({ 
+		status: 'OK',
+		timestamp: new Date().toISOString(),
+		// environment: config.nodeEnv
+	})
 })
 
 app.listen(port, () => {
-	console.log(`Example app listening on port ${port}`)
+	console.log(`✅ Server running on http://localhost:${port}`)
 })
 
 // NODEMON
