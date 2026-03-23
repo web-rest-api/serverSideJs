@@ -61,3 +61,6 @@ Thumbs.db
 # Optional: uncomment if you use these
 # package-lock.json  # (only if using yarn)
 # yarn.lock          # (only if using npm)
+
+# Personal Notes
+notes/
