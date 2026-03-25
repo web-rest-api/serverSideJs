@@ -131,7 +131,7 @@ Make a GET request to `/students` in Postman. Take a screenshot showing:
 - The JSON array returned in the response body
 - The status code
 
->
+><p align="center"><img align="center" src="./img/scr3.png" height="500" alt="scr3" /></p>
 
 ---
 
