@@ -19,3 +19,17 @@
 ## Functionality Overview
 <p align="center">
   <img align="center" src="./img/rest.png" height="400" alt="Description Image" />
+
+## Received Instructions
+* Report documents your progress building a REST API with Node.js and Express.
+* For ∀ section, answer the questions in your own words and include the required screenshots.
+* Screenshots must be clear and readable. Crop them to show only the relevant part of the screen.
+
+<br/><br/>
+
+## Section 1 — Project Setup
+### 1.1 Package.json & Nodemon
+Nodemon is a development tool that automatically restarts your server when you save a file. It should be installed as a **dev dependency** — meaning it is only needed during development, not in production.
+
+**Your task:** Explain in your own words the difference between a regular dependency and a dev dependency. Why does it matter?
+>tbd
