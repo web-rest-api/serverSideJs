@@ -1,14 +1,19 @@
-const express = require("express")
-const app = express()
-const port = 3000
+import express from "express";
+import cors from "cors";
+import students from "./students";
+
+const app = express();
+const port = 3000;
+
+app.use(cors());
 
 app.get("/", (req, res) => {
-	res.json({ msg: "Hello World!" })
-})
+  res.json({ students });
+});
 
 app.listen(port, () => {
-	console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
 
 // NODEMON
 
