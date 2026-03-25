@@ -61,4 +61,4 @@ project/
 └── students.json
 ```
 
-><p align="center"><img align="center" src="./img/project-bef.png" height="180" alt="Favicon" /></p>
+><p align="center"><img align="center" src="./img/project-bef.png" height="480" alt="Favicon" /></p>
