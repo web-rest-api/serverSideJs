@@ -100,14 +100,27 @@ Using Postman, make a GET request to your root endpoint (`/`). Take a screenshot
 Before connecting a real database, it is common to use a local JSON file as a data source. Node.js can read and import JSON files directly.
 
 **Your task:** How did you load the `students.json` file in your project? Did you use `require` or `import`? Paste the line of code here.
-> *Your answer here...*
+>I loaded the `students.json` file via an asynchronous function called loadData(). I neither used CommonJS's `require` nor ES6's `import`:
 
+file> [studentRepository](../repositories/studentRepository.js)
+
+```
+// Setup the absolute path to the JSON file
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const filePath = join(__dirname, '../students.json'); 
+
+// --- HELPER FUNCTIONS ---
+export async function loadData() {
+  const data = await readFile(filePath, 'utf-8');
+  return JSON.parse(data);
+}
+```
 
 ### 3.2 The GET /students Endpoint
 Your server exposes a `/students` endpoint that returns the full list of students as a JSON response.
 
 **Your task:** What does `res.json()` do differently from `res.send()`? Why do we prefer it for API responses?
-> *Your answer here...*
+>`res.json()` is strictly for sending JSON data (via `JSON.stringify(), and Content-Type as application/json`). `res.send()` is all-purpose sender. It looks at inputted data, scans what type of data it is, and automatically sets `Content-Type`. The reason it is preferred is because APIs are usually dealt with using JSON objects: six months from now, if I return to my code and I notice res.json(), I will probably realize it is dealing with an API rather than rendering an HTML page. It also eliminates any possible edge case associated with fetching data from the backend to the frontend.
 
 ---
 
@@ -118,7 +131,7 @@ Make a GET request to `/students` in Postman. Take a screenshot showing:
 - The JSON array returned in the response body
 - The status code
 
-> **[Insert screenshot here]** 
+>
 
 ---
 
