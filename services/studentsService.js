@@ -37,3 +37,11 @@ export const updateStudentService = (id, updatedData) => {
     }
     return students[index]
 }
+
+export const deleteStudentService = (id) => {
+    const index = students.findIndex((student) => student.id === id)
+    if (index === -1) {
+        throw new Error("User not found")
+    }
+    students.splice(index, 1)
+}
