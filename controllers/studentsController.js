@@ -1,8 +1,8 @@
-import { findAllUsers, findUser} from "../services/studentService.js"
+import { findAllUsers, findUser, createStudentService} from "../services/studentsService.js"
 
 export const getAllStudents = (req, res) => {
     try {
-        const students = getAllStudents()
+        const students = findAllUsers()
         res.status(200).json(students)
     } catch {
         res.status(500).json({message: "Internal server error"})
@@ -25,7 +25,7 @@ export const createStudent = (req, res) => {
     try {
         const { name, email, major, gpa } = req.body
         const newStudent = { id: Date.now(), name, email, major, gpa }
-        console.og(newStudent)
+        console.log(newStudent)
         createStudentService(newStudent)
         res.status(201).json({ message: "Student created successfully" })
     } catch (error) {
