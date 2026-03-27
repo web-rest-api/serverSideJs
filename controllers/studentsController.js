@@ -21,6 +21,14 @@ export const getStudentById = (req, res) => {
     }
 }
 
-export const createStudent = (req, res) =>{
-    
+export const createStudent = (req, res) => {
+    try {
+        const { name, email, major, gpa } = req.body
+        const newStudent = { id: Date.now(), name, email, major, gpa }
+        console.og(newStudent)
+        createStudentService(newStudent)
+        res.status(201).json({ message: "Student created successfully" })
+    } catch (error) {
+        res.status(500).json({ message: error })
+    }
 }
