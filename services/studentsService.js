@@ -43,5 +43,5 @@ export const deleteStudentService = (id) => {
     if (index === -1) {
         throw new Error("User not found")
     }
-    students.splice(index, 1)
+    return students.splice(index, 1)[0]
 }
