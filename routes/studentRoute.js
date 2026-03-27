@@ -5,6 +5,7 @@ const router = express.Router()
 
 studentRouter.get("/", getAllStudents)
 studentRouter.get("/:id", getStudentById)
+// add middleware checks !!!!! 🚨‼️
 studentRouter.post("/", createStudent)
 studentRouter.put("/:id", )
 studentRouter.delete("/:id", )

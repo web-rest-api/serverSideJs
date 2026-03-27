@@ -1,7 +1,11 @@
 import { students } from "../students.js";
 
 export const findAllUsers = () => {
-    return students;
+    if (!students || students.length === 0) {
+        throw new Error("No users found")
+    } else {
+        return students
+    }
 }
 
 /**
@@ -18,4 +22,7 @@ export const findUser = (id) => {
     }
 }
 
-export const createStudentService
+// add middleware checks !!!!! 🚨‼️
+export const createStudentService = (newStudent) => {
+    students.push(newStudent)
+}
