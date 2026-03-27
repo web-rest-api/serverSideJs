@@ -1,7 +1,18 @@
 import express from "express" // new js
+import cors from "cors";
+import studentRouter from "./routes/studentsRoute.js";
+
+// const express = require("express") // old js
 
 const app = express()
 const port = 3000
+
+// Middleware
+app.use(cors())
+app.use(express.json())
+
+//routes
+app.use("/students", studentRouter);
 
 app.get("/", (req, res) => {
 	res.json({ msg: "Hello World!" })
