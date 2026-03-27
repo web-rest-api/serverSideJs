@@ -16,7 +16,7 @@ export const findAllUsers = () => {
 export const findUser = (id) => {
     const foundStudent = students.find((student) => student.id === id)
     if (foundStudent) {
-        return foundSTudent
+        return foundStudent
     } else {
         throw new Error("User not found")
     }
