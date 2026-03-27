@@ -1,48 +1,80 @@
-import express from "express" // new js
+const express = require("express");
+const fs = require("fs");
+const cors = require("cors");
 
-const express = require("express") // old js
+const app = express();
+const PORT = 3000;
 
+app.use(express.json());
+app.use(cors());
 
-const app = express()
-const port = 3000
+let students = JSON.parse(fs.readFileSync("students.json", "utf-8"));
 
-app.get("/", (req, res) => {
-	res.json({ msg: "Hello World!" })
-})
+app.get("/students", (req, res) => {
+  res.status(200).json(students);
+});
 
-app.listen(port, () => {
-	console.log(`Example app listening on port ${port}`)
-})
+app.get("/students/:id", (req, res) => {
+  const student = students.find((s) => s.id === parseInt(req.params.id));
 
-// NODEMON
+  if (!student) {
+    return res.status(404).json({ error: "Student not found" });
+  }
 
-// send data to the exposed endpoints
-// import data from students.json and send it to the client when they hit the endpoint
-// use postman to send data to endpoints
+  res.status(200).json(student);
+});
 
-// GET - retrieve data
-// POST - create new data
-// PUT - update existing data
-// DELETE - remove data
-// CRUD - create, read, update, delete
+app.post("/students", (req, res) => {
+  const { name, email, major, gpa } = req.body;
 
-// SEND DATA vs SEND ERROR
-// STATUS CODES - 200, 201, 400, 404
-// JSON - JavaScript Object Notation
-// res.json() - send JSON response
-// res.status() - set status code
-// res.send() - send response
+  if (!name || !email || !major || gpa === undefined) {
+    return res.status(400).json({ error: "All fields are required: name, email, major, gpa" });
+  }
 
-// TRY FRONTEND NOW before moving on
-// go to FONT folder and open index.html in the browser, check console for errors, fix them, and see the data being displayed
+  const newStudent = {
+    id: students.length + 1,
+    name,
+    email,
+    major,
+    gpa,
+  };
 
-// CORS - Cross-Origin Resource Sharing
-// npm i cors
-// app.use(cors())
+  students.push(newStudent);
+  res.status(201).json(newStudent);
+});
 
-// REFACTORING
-// 1. Create a separate file for routes (e.g., routes.js)
-// 2. Create a separate file for controllers (e.g., controllers.js)
-// 3. Change commonJs to ES6 modules (e.g., import/export) - this will require adding "type": "module" in package.json
+app.put("/students/:id", (req, res) => {
+  const index = students.findIndex((s) => s.id === parseInt(req.params.id));
 
-// push to github and share the link
+  if (index === -1) {
+    return res.status(404).json({ error: "Student not found" });
+  }
+
+  const { name, email, major, gpa } = req.body;
+
+  if (!name || !email || !major || gpa === undefined) {
+    return res.status(400).json({ error: "All fields are required: name, email, major, gpa" });
+  }
+
+  students[index] = { id: students[index].id, name, email, major, gpa };
+  res.status(200).json(students[index]);
+});
+
+app.delete("/students/:id", (req, res) => {
+  const index = students.findIndex((s) => s.id === parseInt(req.params.id));
+
+  if (index === -1) {
+    return res.status(404).json({ error: "Student not found" });
+  }
+
+  const deleted = students.splice(index, 1);
+  res.status(200).json(deleted[0]);
+});
+
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
