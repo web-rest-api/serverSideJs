@@ -1,4 +1,4 @@
-import { findAllUsers, findUser, createStudentService} from "../services/studentsService.js"
+import { findAllUsers, findUser, createStudentService, updateStudentService} from "../services/studentsService.js"
 
 export const getAllStudents = (req, res) => {
     try {
@@ -30,5 +30,19 @@ export const createStudent = (req, res) => {
         res.status(201).json({ message: "Student created successfully" })
     } catch (error) {
         res.status(500).json({ message: error })
+    }
+}
+
+export const updateStudent = (req, res) => {
+    const id = parseInt(req.params.id)
+    try {
+        const updatedStudent = updateStudentService(id, req.body) // returns the student...
+        res.status(200).json({ message: "Student updated successfully", student: updatedStudent }) // ...so we can send it here
+    } catch (error) {
+        if (error.message === "User not found") {
+            res.status(404).json({ message: "Student not found" })
+        } else {
+            res.status(500).json({ message: "Internal server error" })
+        }
     }
 }
