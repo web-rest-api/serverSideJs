@@ -26,3 +26,14 @@ export const findUser = (id) => {
 export const createStudentService = (newStudent) => {
     students.push(newStudent)
 }
+
+export const updateStudentService = (id, updatedData) => {
+    const index = students.findIndex((student) => student.id === id)
+    if (index === -1) {
+        throw new Error("User not found")
+    }
+    for (let key in updatedData) {
+        students[index][key] = updatedData[key]
+    }
+    return students[index]
+}
