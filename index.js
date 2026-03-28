@@ -1,11 +1,15 @@
 const express = require("express") // old js
 const cors = require("cors")
+const students = require("./students.json")
 
 const app = express()
 const port = 3000
 
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to my API' })
+})
+app.get('/students', (req, res) => {
+  res.json(students)
 })
 
 app.listen(port, () => {
