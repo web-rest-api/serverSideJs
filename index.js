@@ -15,6 +15,9 @@ app.get('/students', (req, res) => {
   res.json(students)
 })
 
+const studentsRoutes = require("./routes/students")
+app.use("/api/students", studentsRoutes)
+
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`)
 })
