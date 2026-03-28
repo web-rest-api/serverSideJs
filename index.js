@@ -5,6 +5,9 @@ const students = require("./students.json")
 const app = express()
 const port = 3000
 
+app.use(cors())
+app.use(express.json())
+
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to my API' })
 })
@@ -15,6 +18,17 @@ app.get('/students', (req, res) => {
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`)
 })
+
+app.get('/api/students', (req, res) => {})
+
+app.get('/api/students/:id', (req, res) => {})
+
+app.post('/api/students', (req, res) => {})
+
+app.put('/api/students/:id', (req, res) => {})
+
+app.delete('/api/students/:id', (req, res) => {})
+
 
 // NODEMON
 
