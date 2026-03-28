@@ -1,13 +1,11 @@
-import express from "express" // new js
-
 const express = require("express") // old js
-
+const cors = require("cors")
 
 const app = express()
 const port = 3000
 
-app.get("/", (req, res) => {
-	res.json({ msg: "Hello World!" })
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to my API' })
 })
 
 app.listen(port, () => {
