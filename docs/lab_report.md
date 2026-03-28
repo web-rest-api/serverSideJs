@@ -161,7 +161,7 @@ Take a screenshot showing:
 After installing and enabling the `cors` package, the browser will accept responses from your API.
 **Your task:** Where in your `index.js` did you add `app.use(cors())`? Why does the order of middleware matter in Express?
 
-> *Your answer here...*
+>`app.use(cors())` was used as the first middleware to run in execution. The order of middleware matters because executes middleware in the exact order it is written in your code, from top to bottom. If this order is neglected, arising errors can occur. An example includes the case when you put your route `app.post('/students')` above `app.use(express.json())` (in our case we have the post endpoint in `routes/`. When a request comes in to create a student, it hits your route first. Your route tries to read `req.body.name`, but it crashes because the request hasn't passed through the JSON parser yet. The parser must always go near the very top.
 
 ### 4.3 Express Body Parser
 To read data sent in the **body** of a POST or PUT request, Express needs a body parser. Since Express 4.16+, this is built in:
@@ -171,7 +171,7 @@ app.use(express.json())
 ```
 
 **Your task:** What happens if you forget to add `express.json()` and a client sends JSON in the request body? What would `req.body` contain?
-> *Your answer here...*
+>If one forgets to include `app.use(express.json())` and a client sends a JSON payload in a POST or PUT request, the data attached in the body of the req (`req.body`) will not be parsed because Express is designed to expect the data's type to be explicit. `req.body` will be `undefined`.
 
 ---
 
@@ -221,13 +221,11 @@ app.delete('api/students/:id', (req, res) => { /* ... */ })
 
 **Your task:** What is `:id` in the URL? How do you access it in your handler function?
 
-> *Your answer here...*
-> 
+>`:id` is a route parameter in the endpoint used to extract user input. Whenever the client hits that route, Express takes whatever value is in that spot in the URL and attaches it to the `req.params` object. You must have a handler function that matches the route exactly, and with that, you will be able to retrieve it via `req.params.id`.
 
 **Your task:** For a POST request that successfully creates a new student, which status code should you return and why?
 
-> *Your answer here...*
-> 
+>For a POST request that successfully creates a new student, the status code `201` should be returned because it explicitly states that a new resource has been created (`201 CREATED`).
 
 ---
 
@@ -247,7 +245,7 @@ As an application grows, keeping all logic in a single `index.js` becomes hard t
 This separation means each file has **one job**. A route file does not know how data is fetched. A service file does not know anything about HTTP.
 **Your task:** In your own words, what is the difference between a controller and a service? Give a concrete example from your project.
 
-> *Your answer here...*
+>A controller manages the HTTP request and response flow (receiving inputs, checking parameters, and returning status codes), while a service executes the core business logic (processing data, enforcing rules, and communicating with `repositories`).
 
 
 ### 6.2 Target Folder Structure
@@ -307,24 +305,24 @@ Before submitting, verify everything below is complete.
 
 ### Code
 
-- [ ]  Project runs with `npm run dev` without errors
-- [ ]  `nodemon` is installed as a dev dependency
-- [ ]  Module system is consistent throughout the project (CommonJS **or** ES Modules, not mixed)
-- [ ]  `cors` is installed and enabled
-- [ ]  `express.json()` middleware is registered
-- [ ]  `students.json` data is served via `GET /students`
-- [ ]  All five CRUD route signatures are defined
-- [ ]  Code is refactored into `routes/`, `controllers/`, and `services/` folders
-- [ ]  Project is pushed to GitHub with a descriptive README
+- [x]  Project runs with `npm run dev` without errors
+- [x]  `nodemon` is installed as a dev dependency
+- [x]  Module system is consistent throughout the project (CommonJS **or** ES Modules, not mixed)
+- [x]  `cors` is installed and enabled
+- [x]  `express.json()` middleware is registered
+- [x]  `students.json` data is served via `GET /students`
+- [x]  All five CRUD route signatures are defined
+- [x]  Code is refactored into `routes/`, `controllers/`, and `services/` folders
+- [x]  Project is pushed to GitHub with a descriptive README
 
 ### 
 
 ### Report
 
 - [ ]  All reflection questions are answered in your own words
-- [ ]  Screenshot 1 — Project file structure
-- [ ]  Screenshot 2 — Postman: GET request to `/`
-- [ ]  Screenshot 3 — Postman: GET `/students` response
+- [x]  Screenshot 1 — Project file structure
+- [x]  Screenshot 2 — Postman: GET request to `/`
+- [x]  Screenshot 3 — Postman: GET `/students` response
 - [ ]  Screenshot 4 — Network tab: CORS error before fix
 - [ ]  Screenshot 5 — Network tab: successful response after fix
 - [ ]  Screenshot 6 — Refactored folder architecture
@@ -336,17 +334,17 @@ Before submitting, verify everything below is complete.
 
 | Criterion | ✅ Met | ⚠️ Partial | ❌ Not met |
 | --- | --- | --- | --- |
-| Server runs without errors |  |  |  |
-| Nodemon configured as dev dependency |  |  |  |
-| Module system used consistently |  |  |  |
-| Students data served correctly via GET |  |  |  |
-| CORS enabled and working |  |  |  |
-| Body parser configured |  |  |  |
-| All CRUD route signatures present |  |  |  |
-| Code correctly refactored into layers |  |  |  |
+| Server runs without errors | x |  |  |
+| Nodemon configured as dev dependency | x |  |  |
+| Module system used consistently | x |  |  |
+| Students data served correctly via GET | x |  |  |
+| CORS enabled and working | x |  |  |
+| Body parser configured | x |  |  |
+| All CRUD route signatures present | x |  |  |
+| Code correctly refactored into layers | x |  |  |
 | Reflection answers are thoughtful and in own words |  |  |  |
 | All required screenshots included and readable |  |  |  |
-| GitHub repository is accessible and up to date |  |  |  |
+| GitHub repository is accessible and up to date | x |  |  |
 
 ---
 
