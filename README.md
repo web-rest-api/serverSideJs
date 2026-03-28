@@ -2,7 +2,8 @@
 
 ### Lab Report
 <div align="center">
-  [Overview](../README.md)
+  
+  [Lab Report](./docs/lab_report.md)
 </div>
 
 ```
