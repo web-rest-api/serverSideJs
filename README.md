@@ -1,7 +1,8 @@
 # Exercise 02 — API with JSON Model
 
-### Lab Report
 <div align="center">
+  
+### Lab Report
   
   [Lab Report](./docs/lab_report.md)
 </div>
