@@ -2,8 +2,6 @@
 
 <div align="center">
   
-### Lab Report
-  
   [Lab Report](./docs/lab_report.md)
 </div>
 
