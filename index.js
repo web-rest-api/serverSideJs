@@ -1,6 +1,5 @@
 const express = require("express") // old js
 const cors = require("cors")
-const students = require("./students.json")
 
 const app = express()
 const port = 3000
@@ -11,9 +10,6 @@ app.use(express.json())
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to my API' })
 })
-app.get('/students', (req, res) => {
-  res.json(students)
-})
 
 const studentsRoutes = require("./routes/students")
 app.use("/api/students", studentsRoutes)
@@ -22,15 +18,6 @@ app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`)
 })
 
-app.get('/api/students', (req, res) => {})
-
-app.get('/api/students/:id', (req, res) => {})
-
-app.post('/api/students', (req, res) => {})
-
-app.put('/api/students/:id', (req, res) => {})
-
-app.delete('/api/students/:id', (req, res) => {})
 
 
 // NODEMON

@@ -1,12 +1,8 @@
 const students = require("../students.json")
 
-exports.getAll = () => {
-  return students
-}
+exports.getAll = () => students
 
-exports.getById = (id) => {
-  return students.find(s => s.id == id)
-}
+exports.getById = (id) => students.find(s => s.id == id)
 
 exports.create = (student) => {
   students.push(student)
