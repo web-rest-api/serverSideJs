@@ -11,7 +11,7 @@ app.use(cors())
 app.use(express.json())  // Translates response via JSON
 app.use(logMiddleware)
 
-// home route
+// Home route
 app.get("/", (req, res) => {
 	res.json({
 		message: "Welcome to the API",
