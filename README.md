@@ -86,16 +86,40 @@ Work through the files in this order — each one depends on the previous:
 - Export it
 
 ### Step 2 — `services/studentServiceMongoDB.js`
-- Import the `User` model
-- Export these five functions (they all return Promises — no `async/await` needed here):
+- Import the `User` model and `bcrypt`
+- Export these five functions:
 
-| Function | Mongoose method |
-|---|---|
-| `findAllStudents()` | `User.find({})` |
-| `findStudentById(id)` | `User.findById(id)` |
-| `createStudentService(data)` | `User.create(data)` |
-| `updateStudentService(id, data)` | `User.findByIdAndUpdate(id, data)` |
-| `deleteStudentService(id)` | `User.findByIdAndDelete(id)` |
+| Function | Mongoose method | async? |
+|---|---|---|
+| `findAllStudents()` | `User.find({})` | no |
+| `findStudentById(id)` | `User.findById(id)` | no |
+| `createStudentService(data)` | `User.create(data)` | **yes** |
+| `updateStudentService(id, data)` | `User.findByIdAndUpdate(id, data)` | **yes** |
+| `deleteStudentService(id)` | `User.findByIdAndDelete(id)` | no |
+
+#### Password hashing
+
+Passwords must **never** be stored as plain text. Use `bcrypt` to hash before persisting:
+
+```js
+const SALT_ROUNDS = 10; // controls how expensive the hash computation is
+
+// in createStudentService:
+const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
+return User.create({ ...data, password: hashedPassword });
+```
+
+For updates, only hash if the payload actually contains a new password — the user might be updating their name or email without changing their password:
+
+```js
+// in updateStudentService:
+if (data.password) {
+  data.password = await bcrypt.hash(data.password, SALT_ROUNDS);
+}
+return User.findByIdAndUpdate(id, data);
+```
+
+Both functions must be `async` because `bcrypt.hash()` returns a Promise.
 
 ### Step 3 — `controllers/studentsController.js`
 - Import the service functions
