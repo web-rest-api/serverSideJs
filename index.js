@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import studentRouter from "./routes/students.js";
+import authRouter from "./routes/auth.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
     res.json({ msg: "Hello World!" });
 });
 
+app.use("/auth", authRouter);
 app.use("/students", studentRouter);
 
 await connectDB();

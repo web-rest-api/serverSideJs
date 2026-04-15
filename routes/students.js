@@ -6,8 +6,11 @@ import {
     updateStudentHandler,
     deleteStudentHandler,
 } from "../controllers/studentsController.js";
+import authenticate from "../middleware/authenticate.js";
 
 const studentRouter = express.Router();
+
+studentRouter.use(authenticate); // all student routes require a valid token
 
 studentRouter.get("/", getAllStudents);
 studentRouter.get("/:id", getStudentById);
