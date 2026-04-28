@@ -2,8 +2,9 @@ import { register, login } from "../services/authService.js";
 
 export const registerHandler = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
-        const user = await register(name, email, password);
+        const { name, email, password, major, gpa } = req.body;
+        const imageUrl = req.file ? `uploads/${req.file.filename}` : null;
+        const user = await register(name, email, password, major, gpa, imageUrl);
         res.status(201).json(user);
     } catch (err) {
         res.status(400).json({ msg: err.message });
