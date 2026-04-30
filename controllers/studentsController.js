@@ -1,18 +1,32 @@
-import { findAllUsers, findUser, createStudentService, updateStudentService, deleteStudentService} from "../services/studentsService.js"
+import jwt from "jsonwebtoken"
+import { findAllStudents,
+    findStudentById,
+    createStudentService,
+    loginStudentService,
+    updateStudentService,
+    deleteStudentService
+} from "../services/studentServiceMongoDB.js"
 
-export const getAllStudents = (req, res) => {
+export const getAllStudents = async (req, res) => {
     try {
-        const students = findAllUsers()
-        res.status(200).json(students)
+        const students = await findAllStudents()
+        const toStudentDTO = (student) => ({
+            id: student._id,
+            email: student.email,
+            major: student.major,
+            gpa: student.gpa,
+        })
+        const studentsDTO = students.map(toStudentDTO)
+        res.status(200).json(studentsDTO)
     } catch {
-        res.status(500).json({message: "Internal server error"})
+        res.status(404).json({message: error.message})
     }
 }
 
 export const getStudentById = (req, res) => {
     const id = parseInt(req.params.id)
     try {
-        const student = findUser(id)
+        const student = await findStudentById(id)
         console.log(student)
         res.status(200).json(student)
     } catch (error) {
@@ -23,21 +37,27 @@ export const getStudentById = (req, res) => {
 
 export const createStudent = (req, res) => {
     try {
-        const { name, email, major, gpa } = req.body
-        const newStudent = { id: Date.now(), name, email, major, gpa }
-        console.log(newStudent)
-        createStudentService(newStudent)
-        res.status(201).json({ message: "Student created successfully" })
+        const { name, email, password, gpa, major } = req.body
+        const newStudent = { name, email, password, gpa, major}
+        const loggedUser = await createStudentService(newStudent);
+        const token = jwt.sign({ id: loggedUser._id, forReals: true}, process.env.JWT_SECRET, {
+            expiresIn: "24h",
+        })
+        const toStudentDTO = (student) => ({
+            id: student._id,
+            email: student.email,
+        })
+        res.status(201).json({ token, user: toStudentDTO(loggedUser) })
     } catch (error) {
         res.status(500).json({ message: error })
     }
 }
 
-export const updateStudent = (req, res) => {
-    const id = parseInt(req.params.id)
+export const updateStudent = async (req, res) => {
+    const id = req.params.id
     try {
-        const updatedStudent = updateStudentService(id, req.body) // returns the student...
-        res.status(200).json({ message: "Student updated successfully", student: updatedStudent }) // ...so we can send it here
+        const updated = await updateStudentService(id, req.body)
+        res.status(200).json(updated)
     } catch (error) {
         if (error.message === "User not found") {
             res.status(404).json({ message: "Student not found" })
@@ -47,11 +67,11 @@ export const updateStudent = (req, res) => {
     }
 }
 
-export const deleteStudent = (req, res) => {
-    const id = parseInt(req.params.id) 
+export const deleteStudent = async (req, res) => {
+    const id = req.params.id
     try {
-        const deletedStudent = deleteStudentService(id) // same here, we return the deleted student...
-        res.status(200).json({ message: "Student deleted successfully", student: deletedStudent }) // ...so we can send it here
+        await deleteStudentService(id)
+        res.status(200).json({ message: "Student deleted successfully"}) // ...so we can send it here
     } catch (error) {
         if (error.message === "User not found") {
             res.status(404).json({ message: "Student not found" })
@@ -59,4 +79,17 @@ export const deleteStudent = (req, res) => {
             res.status(500).json({ message: "Internal server error" })
         }
     }
+}
+
+export const loginStudent = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await loginStudentService(email, password);
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "24h",
+    });
+    res.status(200).json({ token, user: { id: user._id, email: user.email } });
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
 }
