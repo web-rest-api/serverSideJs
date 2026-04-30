@@ -1,13 +1,40 @@
-import express from "express";
-import { createStudent, getAllStudents, getStudentById, updateStudent, deleteStudent} from "../controllers/studentsController.js"
+import express from "express"
+import {
+    createStudent,
+    loginStudent,
+    getAllStudents,
+    getStudentById,
+    updateStudent,
+    deleteStudent,
+} from "../constrollers/studentsController.js"
+import multerConfig from "../middleware/multer-config.js"
+import { validateStudent } from "../middleware/validateStudent.js"
+
+import { authCheck } from "../middleware/auth-middleware.js"
 
 const studentRouter = express.Router();
 
-studentRouter.get("/", getAllStudents)
+studentRouter.post("/login", loginStudent);
+
+studentRouter.post(
+    "/signup",
+    (req, res, next) => {
+    multerConfig(req, res, (err) => {
+        if (err) {
+            console.error("Multer error:", err)
+            return res.status(400).json({error: err.message})
+        }
+        next()
+    })
+  },
+  validateStudent,
+  createStudent,
+);
+
+// protected route
+studentRouter.get("/", authCheck, getAllStudents)
 studentRouter.get("/:id", getStudentById)
-// add middleware checks !!!!! 🚨‼️- Yes it's done
-studentRouter.post("/", createStudent)
 studentRouter.put("/:id", updateStudent)
 studentRouter.delete("/:id", deleteStudent)
 
-export default studentRouter 
+export default studentRouter
