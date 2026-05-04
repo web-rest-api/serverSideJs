@@ -4,9 +4,9 @@ export const findAllStudents = () => Student.find();
 
 export const findStudentById = (id) => Student.findById(id);
 
-export const createStudent = (data) => Student.create(data);
+export const createStudentService = (data) => Student.create(data);
 
-export const updateStudent = (id, data) =>
+export const updateStudentService = (id, data) =>
     Student.findByIdAndUpdate(id, data, { new: true });
 
-export const deleteStudent = (id) => Student.findByIdAndDelete(id);
+export const deleteStudentService = (id) => Student.findByIdAndDelete(id);
