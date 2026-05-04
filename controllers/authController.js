@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { register, login } from "../services/authService.js";
 
 export const registerHandler = async (req, res) => {
@@ -5,7 +6,8 @@ export const registerHandler = async (req, res) => {
         const { name, email, password, major, gpa } = req.body;
         const imageUrl = req.file ? `uploads/${req.file.filename}` : null;
         const user = await register(name, email, password, major, gpa, imageUrl);
-        res.status(201).json(user);
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "24h" });
+        res.status(201).json({ token, user: { id: user.id, email: user.email } });
     } catch (err) {
         res.status(400).json({ msg: err.message });
     }

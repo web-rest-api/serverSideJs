@@ -9,7 +9,12 @@ import {
 export const getAllStudents = async (req, res) => {
     try {
         const students = await findAllStudents();
-        res.status(200).json(students);
+        const toStudentDTO = (student) => ({
+            id: student._id,
+            email: student.email,
+        });
+        const studentsDTO = students.map(toStudentDTO)
+        res.status(200).json(studentsDTO);
     } catch (err) {
         res.status(500).json({ msg: err.message });
     }
