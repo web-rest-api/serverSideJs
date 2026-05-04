@@ -1,11 +1,11 @@
-import * as studentsService from "../../services/studentService.js"
+import studentService from "../services/studentService.js"
 
 // Controllers (final route handlers)
 
 // Get all students
 export async function getAllStudents(req, res) {
     try{
-        const students = await studentsService.getAllStudents()
+        const students = await studentService.getAllStudents()
         res.status(200).json(students)
     } catch(error) {
         res.status(500).json({ msg: error.message })
@@ -16,7 +16,7 @@ export async function getAllStudents(req, res) {
 export async function findStudentById (req, res) {
     try {
         const id = req.params.id
-        const student = await studentsService.findStudentById(id)
+        const student = await studentService.findStudentById(id)
 
         if (!student) return res.status(404).json({ msg: `Book with id ${id} is not available` })
         
@@ -34,7 +34,7 @@ export async function createStudent (req, res) {
         if (!name) return res.status(400).json({ msg: 'Student name required' })
         if (!major) return res.status(400).json({ msg: 'Major required' })
 
-        const newStudent = await studentsService.createStudent({ name, email, major, gpa })
+        const newStudent = await studentService.createStudent({ name, email, major, gpa })
         return res.status(200).json(newStudent)
     } catch (error) {
         res.status(500).json({ msg: error.message })
@@ -47,7 +47,7 @@ export async function updateStudent(req, res) {
         const id = req.params.id
         const newStudentData = req.body
 
-        const updatedStudent = await studentsService.updateStudent(id, newStudentData)
+        const updatedStudent = await studentService.updateStudent(id, newStudentData)
 
         if (!updatedStudent) return res.status(404).json({ msg: 'Student not found' })
         
@@ -61,7 +61,7 @@ export async function updateStudent(req, res) {
 export async function deleteStudent (req, res) {
     try {
         const id = req.params.id
-        const deleted = await studentsService.deleteStudent(id)
+        const deleted = await studentService.deleteStudent(id)
 
         if (!deleted) return res.status(404).json({ msg: `Student not found` })
         

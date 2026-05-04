@@ -1,25 +1,34 @@
 import express from "express"
 import cors from "cors"
+import connectToMongoDB from "./config/db.js";
+
 import logMiddleware from "./middleware/log-middleware.js";
+
 import studentRouter from "./routes/studentRoute.js"
 import courseRouter from "./routes/courseRoute.js"
 import roomRouter from "./routes/roomRoute.js"
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
+
+// trigger mongodb atlas cluster connection
+await connectToMongoDB();
 
 // global middleware
 app.use(cors())  // allow other sites/servers to access this server's resources
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())  // translate response via JSON
 app.use(logMiddleware)
 
 // read root
 app.get("/", (req, res) => {
 	res.json({
-		message: "Welcome to the API",
-		version: "1.0.0",
+		message: "Simple EPITA REST API running...",
+		version: "1.5.0",
 		endpoints: {
-			students: "/api/students"
+			students: "/api/students",
+			courses: "/api/courses",
+			rooms: "/api/rooms"
 		}
 	})
 })
