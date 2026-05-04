@@ -6,7 +6,7 @@ import {
     getStudentById,
     updateStudent,
     deleteStudent,
-} from "../constrollers/studentsController.js"
+} from "../controllers/studentsController.js"
 import multerConfig from "../middleware/multer-config.js"
 import { validateStudent } from "../middleware/validateStudent.js"
 
