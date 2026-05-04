@@ -1,1 +1,14 @@
 /solut
+node_modules
+/node_modules
+CLAUDE.md
+*.log
+*.env
+.DS_Store
+.idea
+.vscode
+/.claude
+.idea
+
+public/uploads/*
+!public/uploads/.gitkeep
