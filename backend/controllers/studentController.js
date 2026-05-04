@@ -1,4 +1,4 @@
-import * as studentsService from "../../services/studentsService.js"
+import * as studentsService from "../../services/studentService.js"
 
 // Controllers (final route handlers)
 
