@@ -23,7 +23,7 @@ export const getAllStudents = async (req, res) => {
     }
 }
 
-export const getStudentById = (req, res) => {
+export const getStudentById = async (req, res) => {
     const id = parseInt(req.params.id)
     try {
         const student = await findStudentById(id)
@@ -35,7 +35,7 @@ export const getStudentById = (req, res) => {
     }
 }
 
-export const createStudent = (req, res) => {
+export const createStudent = async (req, res) => {
     try {
         const { name, email, password, gpa, major } = req.body
         const newStudent = { name, email, password, gpa, major}

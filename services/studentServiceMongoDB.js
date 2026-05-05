@@ -3,7 +3,7 @@ import User from "../models/userModel.js";
 
 const SALT_ROUNDS = 10;
 
-export const findAllUsers = () => User.find();
+export const findAllStudents = () => User.find();
 
 export const findStudentById = (id) => User.findById(id);
 
